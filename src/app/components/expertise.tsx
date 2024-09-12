@@ -105,7 +105,7 @@ const ExpertiseSection = () => {
   };
 
   return (
-    <div ref={expertiseRef} className="my-12">
+    <div ref={expertiseRef} className="h-screen">
       {expertiseData.map((expertise, index) => (
         <motion.div
           key={index}

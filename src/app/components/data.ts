@@ -4,7 +4,7 @@ import teamInterface from "../../../type";
     {
       name: 'Ayesha Khan',
       role: 'Senior partner',
-      description: 'With over 20 years of experience, Ayesha specializes in corporate and commercial law, providing strategic legal counsel to businesses across Pakistan. She is a graduate of Harvard Law School and has a track record of advising clients in complex corporate transactions.',
+      description: 'With over 20 years of experience, Ayesha specializes in corporate and commercial law. She is a graduate of Harvard Law School and has a track record of advising clients in corporate transactions.',
       image: '/images/img4.jpg',
       social: {
         facebook: 'https://www.facebook.com/login.php/',

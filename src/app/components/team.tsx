@@ -17,7 +17,7 @@ const Team = () => {
     dots: true,
     infinite: true,
     speed: 500,
-    slidesToShow: 3,
+    slidesToShow: 4,
     slidesToScroll: 1,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
@@ -25,12 +25,19 @@ const Team = () => {
       {
         breakpoint: 1024,
         settings: {
+          slidesToShow: 3,
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 768,
+        settings: {
           slidesToShow: 2,
           slidesToScroll: 1,
         },
       },
       {
-        breakpoint: 600,
+        breakpoint: 540,
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
@@ -86,7 +93,7 @@ const Team = () => {
   return (
     <section
       id="team"
-      className="relative py-16 bg-gray-50 overflow-hidden"
+      className="relative py-16 xl:py-8 bg-gray-50 overflow-hidden h-screen"
       ref={teamRef}
     >
       {/* Background Image with fade-in and reduced opacity */}
@@ -94,11 +101,11 @@ const Team = () => {
         initial={{ opacity: 0, x: '-100%' }}
         animate={isInView ? { opacity: 0.2, x: 0 } : {}}
         transition={{ duration: 1.5, ease: 'easeInOut' }}
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat z-0"
+        className="absolute inset-0 bg-cover bg-no-repeat z-0"
         style={{ backgroundImage: "url('/images/team1.jpg')" }}
       ></motion.div>
 
-      <div className="container mx-auto relative z-10">
+      <div className="mx-auto relative z-10 px-4 sm:px-6 lg:px-8">
         {/* Heading with staggered letter animation */}
         <motion.h1
           className="py-2 font-heading bg-gradient-to-r from-orange-400 via-orange-800 to-white bg-clip-text text-transparent text-5xl sm:text-6xl font-bold text-center mt-5 mb-3 sm:mb-6"
@@ -130,27 +137,29 @@ const Team = () => {
                 transition={{ type: 'spring', stiffness: 200 }}
                 className="p-4"
               >
-                <div className="bg-white rounded-lg shadow-lg text-center px-5 py-2 team-card h-96 flex flex-col justify-between">
+                <div className="bg-white rounded-lg shadow-lg text-center px-2 py-2 team-card h-96 flex flex-col justify-between sm:h-80 lg:h-96">
                   <Image
                     src={member.image}
                     alt={member.name}
                     width={150}
                     height={150}
-                    className="rounded-full h-36 w-32 mx-auto shadow-lg shadow-gray-700"
+                    className="rounded-full h-20 w-20 mx-auto shadow-lg shadow-gray-700 sm:h-28 sm:w-28 lg:h-36 lg:w-32"
                   />
-                  <h3 className="text-xl font-heading font-bold mt-4">{member.name}</h3>
-                  <p className="text-sm text-gray-500 mb-2">{member.role}</p>
-                  <p className="text-gray-600 text-sm overflow-hidden">
+                  <h3 className="text-xl font-heading font-bold mt-4 sm:text-lg lg:text-xl">
+                    {member.name}
+                  </h3>
+                  <p className="text-sm text-gray-500 mb-2 sm:text-xs lg:text-sm">{member.role}</p>
+                  <p className="text-gray-600 text-sm overflow-hidden sm:text-xs lg:text-sm">
                     {member.description}
                   </p>
                   <div className="flex justify-center space-x-4 mt-3 mb-2">
-                    <a href={member.social.facebook} className="text-blue-600">
+                    <a href={member.social.facebook} className="text-blue-600 sm:text-sm lg:text-lg">
                       <i className="fab fa-facebook"></i>
                     </a>
-                    <a href={member.social.linkedin} className="text-blue-400">
+                    <a href={member.social.linkedin} className="text-blue-400 sm:text-sm lg:text-lg">
                       <i className="fab fa-linkedin"></i>
                     </a>
-                    <a href={member.social.instagram} className="text-pink-600">
+                    <a href={member.social.instagram} className="text-pink-600 sm:text-sm lg:text-lg">
                       <i className="fab fa-instagram"></i>
                     </a>
                   </div>

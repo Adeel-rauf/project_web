@@ -28,7 +28,7 @@ export default function RootLayout({
         <Navbar />
 
         {/* Main content section with better accessibility */}
-        <main className="container mx-auto px-4 py-6 min-h-screen">
+        <main className="">
           {children}
         </main>
 
