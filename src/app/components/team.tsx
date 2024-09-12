@@ -1,14 +1,15 @@
 'use client';
 import React, { useEffect, useState, useRef } from 'react';
-import Slider from 'react-slick';
 import { motion } from 'framer-motion';
-import teamMembers from './data';
+import Slider from 'react-slick';
+import { FaArrowAltCircleRight, FaArrowAltCircleLeft } from 'react-icons/fa';
 import Image from 'next/image';
-import { FaArrowAltCircleRight } from "react-icons/fa";
-import { FaArrowAltCircleLeft } from "react-icons/fa";
-
+import teamMembers from './data';
 
 const Team = () => {
+  const text = "My Team";
+  const letters = text.split("");
+
   const [isInView, setIsInView] = useState(false);
   const teamRef = useRef(null);
 
@@ -36,36 +37,45 @@ const Team = () => {
         },
       },
     ],
-  };  
-  // Intersection Observer to trigger animation when the team section is in view
+  };
+
+  // Handle in-view and direct link trigger
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
+        if (entry.isIntersecting || window.location.hash === "#team") {
           setIsInView(true);
-          observer.disconnect(); // Stop observing once in view
+          observer.disconnect();
         }
       },
-      { threshold: 0.3 } // 30% of the team section is visible
+      { threshold: 0.3 }
     );
 
     if (teamRef.current) {
       observer.observe(teamRef.current);
     }
 
+    // Check if directly clicked on team link
+    if (window.location.hash === "#team") {
+      setIsInView(true);
+    }
+
     return () => observer.disconnect();
   }, []);
 
-  // Variants for fade-in and stagger effect
   const containerVariants = {
-    hidden: { opacity: 0 },
+    hidden: { opacity: 1 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.3, // Staggered fade-in for each card
-        duration: 0.8,
+        staggerChildren: 0.1,
       },
     },
+  };
+
+  const letterVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: { opacity: 1, y: 0 },
   };
 
   const itemVariants = {
@@ -76,16 +86,37 @@ const Team = () => {
   return (
     <section
       id="team"
-      className="py-16 bg-gray-50"
+      className="relative py-16 bg-gray-50 overflow-hidden"
       ref={teamRef}
     >
-      <div className="container mx-auto">
-        <h2 className="text-4xl font-bold text-center mt-5 mb-12">My Team</h2>
+      {/* Background Image with fade-in and reduced opacity */}
+      <motion.div
+        initial={{ opacity: 0, x: '-100%' }}
+        animate={isInView ? { opacity: 0.2, x: 0 } : {}}
+        transition={{ duration: 1.5, ease: 'easeInOut' }}
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat z-0"
+        style={{ backgroundImage: "url('/images/team1.jpg')" }}
+      ></motion.div>
+
+      <div className="container mx-auto relative z-10">
+        {/* Heading with staggered letter animation */}
+        <motion.h1
+          className="py-2 font-heading bg-gradient-to-r from-orange-400 via-orange-800 to-white bg-clip-text text-transparent text-5xl sm:text-6xl font-bold text-center mt-5 mb-3 sm:mb-6"
+          variants={containerVariants}
+          initial="hidden"
+          animate={isInView ? 'visible' : 'hidden'}
+        >
+          {letters.map((letter, index) => (
+            <motion.span key={index} variants={letterVariants}>
+              {letter}
+            </motion.span>
+          ))}
+        </motion.h1>
 
         <motion.div
           initial="hidden"
           animate={isInView ? 'visible' : 'hidden'}
-          variants={containerVariants} // Applying fade-in and stagger
+          variants={containerVariants}
         >
           <Slider {...settings}>
             {teamMembers.map((member, index) => (
@@ -95,12 +126,11 @@ const Team = () => {
                 whileHover={{
                   scale: 1.05,
                   boxShadow: '0px 10px 30px rgba(0, 0, 0, 0.1)',
-                }} // Hover scale-up effect
+                }}
                 transition={{ type: 'spring', stiffness: 200 }}
                 className="p-4"
               >
                 <div className="bg-white rounded-lg shadow-lg text-center px-5 py-2 team-card h-96 flex flex-col justify-between">
-                  {/* Team Member Image */}
                   <Image
                     src={member.image}
                     alt={member.name}
@@ -108,21 +138,17 @@ const Team = () => {
                     height={150}
                     className="rounded-full h-36 w-32 mx-auto shadow-lg shadow-gray-700"
                   />
-                  {/* Name */}
-                  <h3 className="text-xl font-bold mt-4">{member.name}</h3>
-                  {/* Role */}
+                  <h3 className="text-xl font-heading font-bold mt-4">{member.name}</h3>
                   <p className="text-sm text-gray-500 mb-2">{member.role}</p>
-                  {/* Description */}
                   <p className="text-gray-600 text-sm overflow-hidden">
                     {member.description}
                   </p>
-                  {/* Social Media Icons */}
-                  <div className="flex justify-center space-x-4 mt-4">
+                  <div className="flex justify-center space-x-4 mt-3 mb-2">
                     <a href={member.social.facebook} className="text-blue-600">
-                      <i className="fab fa-facebook-f"></i>
+                      <i className="fab fa-facebook"></i>
                     </a>
                     <a href={member.social.linkedin} className="text-blue-400">
-                      <i className="fab fa-linkedin-in"></i>
+                      <i className="fab fa-linkedin"></i>
                     </a>
                     <a href={member.social.instagram} className="text-pink-600">
                       <i className="fab fa-instagram"></i>
@@ -138,21 +164,14 @@ const Team = () => {
   );
 };
 
-// Arrow components with rounded background and proper z-index
-
-
 // Right Arrow Component
 function NextArrow(props: any) {
   const { onClick } = props;
   return (
     <motion.div
       onClick={onClick}
-      // whileHover={{ scale: 1.2 }}
-      className="absolute hover:scale-125 duration-300 right-0 top-1/2 
-      transition-transform -translate-y-1/2 z-10 bg-gray-100 rounded-full p-2 shadow-md cursor-pointer"
+      className="absolute hover:scale-125 duration-300 right-0 top-1/2 transition-transform -translate-y-1/2 z-10 bg-gray-100 rounded-full p-2 shadow-md cursor-pointer"
     > <FaArrowAltCircleRight />
-
-      
     </motion.div>
   );
 }
@@ -163,17 +182,14 @@ function PrevArrow(props: any) {
   return (
     <motion.div
       onClick={onClick}
-      initial={{opacity:0}}
-        animate={{opacity:1}}
-        transition={{duration:1,delay:1}}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 1, delay: 1 }}
       className="absolute hover:scale-125 duration-300 left-0 top-1/2 transition-transform -translate-y-1/2 z-10 bg-gray-100 rounded-full p-2 shadow-md cursor-pointer"
-    > <FaArrowAltCircleLeft/>
-      
+    > <FaArrowAltCircleLeft />
     </motion.div>
   );
 }
 
 export { NextArrow, PrevArrow };
-
-
-export default Team
+export default Team;

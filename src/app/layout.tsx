@@ -1,15 +1,9 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Navbar from "./components/navbar"; 
+import Navbar from "./components/navbar";
 // import Footer from "./components/footer";
-{/* <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@300;400&display=swap" rel="stylesheet" /> */}
-<>
-<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet" />
-<link
-  rel="stylesheet"
-  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
-/>
-</>
+import Head from "next/head";
+
 export const metadata: Metadata = {
   title: "myWebsite",
   description: "A lawyer's website",
@@ -22,6 +16,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <Head>
+        {/* Google Fonts */}
+        <link
+          href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&display=swap"
+          rel="stylesheet"
+          />
+      </Head>
       <body className="bg-gray-100 text-gray-900">
         {/* Navbar Component */}
         <Navbar />

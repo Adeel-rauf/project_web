@@ -22,8 +22,9 @@ export default function Navbar() {
         </div>
 
         {/* Desktop Menu */}
-        <div className="hidden md:flex space-x-6">
-          <Link to="about" smooth={true} duration={500} className="hover:text-yellow-900 font-semibold hover:scale-105 text-gray-700 transition duration-300 ease-in-out cursor-pointer">
+        <div className="font-heading hidden md:flex space-x-6">
+          <Link to="about" smooth={true} duration={500} className="hover:text-yellow-900 font-semibold 
+          hover:scale-105 text-gray-700 transition duration-300 ease-in-out cursor-pointer">
             About
           </Link>
           <Link to="team" smooth={true} duration={500} className="hover:text-yellow-900 font-semibold hover:scale-105 text-gray-700  transition duration-300 ease-in-out cursor-pointer">
@@ -79,17 +80,19 @@ export default function Navbar() {
         initial={{ x: '-100%' }}
         animate={{ x: isOpen ? 0 : '-100%' }}
         transition={{ duration: 0.5, ease: 'easeInOut' }}
-        className={`fixed inset-0 bg-white/90 backdrop-blur-lg z-20 w-full h-screen flex flex-col items-center justify-center space-y-8 ${
+        className={`fixed inset-0 bg-white/90 backdrop-blur-lg z-20 w-full h-screen flex flex-col 
+        items-center justify-center space-y-8 ${
           isOpen ? 'block' : 'hidden'
         }`}
       >
-        <div className="text-center space-y-6">
+        <div className="text-center font-heading space-y-6">
           <Link
             to="about"
             smooth={true}
             duration={500}
             onClick={toggleMenu}
-            className="text-xl text-gray-700 hover:cursor-pointer font-semibold hover:text-black hover:scale-105 transition duration-300 ease-in-out flex items-center space-x-2"
+            className="text-xl text-gray-700 hover:cursor-pointer font-semibold hover:text-black 
+            hover:scale-105 transition duration-300 ease-in-out flex items-center space-x-2"
           >
             <FaUser /> <span>About</span>
           </Link>

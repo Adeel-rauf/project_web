@@ -9,6 +9,7 @@ const config: Config = {
   ],
   theme: {
   	extend: {
+		backgroundClip: ['text'],
   		colors: {
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
@@ -52,8 +53,8 @@ const config: Config = {
   			}
   		},
   		fontFamily: {
-  			heading: ['Libre Baskerville"', 'serif'],
-  			body: ['Lato"', 'sans-serif']
+  			heading: ['Libre Baskerville', 'serif'],
+  			body: ['Lato', 'sans-serif']
   		},
   		borderRadius: {
   			lg: 'var(--radius)',

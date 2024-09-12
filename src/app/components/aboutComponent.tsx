@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useState, useRef } from 'react';
-import { delay, motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import ReactMarkdown from 'react-markdown'; 
 
 const markdownText = `
@@ -15,7 +15,6 @@ export default function About() {
   const [isInView, setIsInView] = useState(false);
   const aboutRef = useRef<HTMLDivElement>(null);
 
-  // Helper to check if the section is visible directly when clicking on the "About" link
   const handleVisibility = (entry: IntersectionObserverEntry) => {
     if (aboutRef.current) {
       if (entry.isIntersecting || window.scrollY >= aboutRef.current.offsetTop - window.innerHeight / 2) {
@@ -27,7 +26,7 @@ export default function About() {
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => handleVisibility(entry),
-      { threshold: 0.3 } // 30% of the section is visible
+      { threshold: 0.3 }
     );
 
     if (aboutRef.current) {
@@ -37,42 +36,53 @@ export default function About() {
     return () => observer.disconnect();
   }, []);
 
-  // Animation for stagger effect
   const parentVariants = {
     hidden: { opacity: 0 },
     show: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.8, 
+        staggerChildren: 0.8,
       },
     },
   };
 
   const childVariants = {
-    hidden: { opacity: 0, x: -10 },
-    show: { opacity: 1, x: 0 },
+    hidden: { opacity: 0 },
+    show: { opacity: 1, },
   };
 
   return (
-    <section ref={aboutRef} id="about" className="min-h-screen py-16 bg-gray-50">
-      <div className="container mx-auto px-4">
-        
+    <section 
+      ref={aboutRef} 
+      id="about" 
+      className="min-h-screen py-16 relative"
+    >
+      {/* Background Image with Opacity and Fade-in Effect */}
+      <motion.div
+        initial={{ opacity: 0, x: '-100%' }}
+        animate={isInView ? { opacity: 0.2, x: 0 } : {}}
+        transition={{ duration: 1.5, ease: 'easeInOut' }}
+        className="absolute inset-0 bg-cover bg-left bg-no-repeat z-0"
+        style={{ backgroundImage: "url('/images/about2.jpg')" }}
+      ></motion.div>
+
+      <div className="container mx-auto px-4 relative z-10">
         {/* Meet Amna Usman with underline */}
         <motion.div
-          initial={{ opacity: 0, x: 50 }}
-          animate={isInView ? { opacity: 1, x: 0 } : {}}
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 1 }}
           className="text-center mb-8"
         >
-          <h2 className="font-heading font-bold text-4xl mt-5 text-gray-800">
+          <h2 className="font-heading font-bold text-4xl mt-5 bg-gradient-to-r from-black via-orange-800 to-red-300 bg-clip-text text-transparent">
             Meet Amna Usman
           </h2>
-          <div className="w-full h-1 bg-yellow-900 mt-2"></div> {/* Underline */}
+          <div className="w-full h-1 bg-yellow-900 mt-2"></div>
         </motion.div>
 
         {/* Markdown text with staggered animation */}
         <motion.div
-          className="max-w-3xl mx-auto prose prose-lg text-gray-600"
+          className="max-w-3xl mx-auto prose prose-lg text-gray-950 font-semibold"
           initial="hidden"
           animate={isInView ? "show" : "hidden"}
           variants={parentVariants}
@@ -97,8 +107,9 @@ export default function About() {
           animate={isInView ? { opacity: 1 } : {}}
           transition={{ duration: 1.5, delay: 2 }}
         >
-          <button className="bg-yellow-800 font-bold duration-300 transition-transform hover:bg-yellow-700 hover:shadow-gray-800 hover:shadow-lg hover:scale-105 text-white px-6 py-3 rounded-full">
-            Contact Amna
+          <button className="relative overflow-hidden bg-yellow-950 font-bold duration-300 transition-transform text-white px-6 py-3 rounded-full group">
+            <span className="absolute inset-0 bg-gradient-to-r from-yellow-950 to-orange-400 transition-all duration-500 ease-in-out transform -translate-x-full group-hover:translate-x-0"></span>
+            <span className="relative z-10">Contact Amna</span>
           </button>
         </motion.div>
       </div>
